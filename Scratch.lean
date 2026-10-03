@@ -1,6 +1,4 @@
-module
-
-public import Mathlib
+import Mathlib
 
 example {c k ℓ : ℕ} {g : ℕ → ℕ → ℕ} (hg₀_left : g 0 ℓ ≤ c) (hg₀_right : g k 0 ≤ c)
     (hg : g (k + 1) (ℓ + 1) ≤ g (k + 1) ℓ + g k (ℓ + 1)) :
@@ -23,17 +21,10 @@ theorem scratch_salvaged {c : ℕ} {g : ℕ → ℕ → ℕ} (hg₀_left : ∀ �
     obtain ⟨_, _⟩ : k = 0 ∧ ℓ = 0 := by omega
     grind
   | succ n ih =>
-    rcases k with _ | j
-    · grind
-    · 
-      sorry
-      stop
-      cases ℓ
-      · sorry
-      · sorry
-    stop
     obtain _ | k := k
     · simpa using hg₀_left ℓ
     obtain _ | ℓ := ℓ
     · simpa [← h] using hg₀_right _
     grw [hg, ih _ _ (by omega), ih _ _ (by omega), Nat.choose_succ_succ' n, mul_add, add_comm]
+
+#find_home scratch_salvaged
